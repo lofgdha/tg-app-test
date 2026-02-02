@@ -1,8 +1,31 @@
+interface TelegramUser {
+  id?: number;
+  first_name?: string;
+  last_name?: string;
+  username?: string;
+  language_code?: string;
+  is_premium?: boolean;
+}
+
+interface TelegramTheme {
+  bg_color?: string;
+  text_color?: string;
+  hint_color?: string;
+  link_color?: string;
+  button_color?: string;
+  button_text_color?: string;
+  secondary_bg_color?: string;
+}
+
 function App() {
-  window.Telegram?.WebApp?.ready();
-  
-  const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
-  const theme = window.Telegram?.WebApp?.themeParams;
+  // Ensure Telegram WebApp interface is available before calling ready()
+  if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.ready === 'function') {
+    window.Telegram.WebApp.ready();
+  }
+
+  // Get user and theme data with proper typing
+  const user: TelegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user ?? {};
+  const theme: TelegramTheme = window.Telegram?.WebApp?.themeParams ?? {};
   
   // Используем цвета из темы Telegram
   const bgColor = theme?.bg_color || '#0a0a0a';
